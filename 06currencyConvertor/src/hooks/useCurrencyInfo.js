@@ -1,15 +1,29 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react';
 
 function useCurrencyInfo(currency) {
-    const [data, setData] = useState({}) //here when we calling api we used empty object for default so when api call get failed system will not crash 
+    const [data, setData] = useState({});
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}.json`)
-        .then((res) => res.json())
-        .then((res) => setData(res[currency]))
-        console.log(data);        
-    }, [currency] //this is called dependency array so when there is any change in assigned variable or function it gets called
-)
-console.log(data);
-return data
+        const apiKey = 'c8549286dc5c6b9ddfb54a2faa8e052f'; // Replace with your actual API key
+        const url = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=${currency}`;
+
+        fetch(url)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
+            .then((res) => setData(res.rates))
+            .catch((error) => {
+                setError(error);
+                console.error('Error fetching data: ', error);
+            });
+    }, [currency]);
+
+    console.log(data);
+    return { data, error };
 }
+
 export default useCurrencyInfo;
