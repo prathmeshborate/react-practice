@@ -1,0 +1,16 @@
+{
+	"name": "React Vite with TailwindCSS",
+	"build": {
+	  "dockerfile": "Dockerfile"
+	},
+	"settings": {
+	  "terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+	  "vscode.typescript-language-features",
+	  "esbenp.prettier-vscode",
+	  "dbaeumer.vscode-eslint"
+	],
+	"postCreateCommand": "npm install"
+  }
+  
